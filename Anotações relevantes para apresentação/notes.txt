@@ -1,0 +1,140 @@
+
+1 - Mostrara execusão do programa
+2 - Explicação sobre os dados de entrada 
+3 - Explicação sobre os dados gerados
+
+4 - Alterar os dados: 5 8 9 -3 -3 1 5 3 
+
+
+COMO N DA TEMPO DE EXPLICAR FUNÇÃO A FUNÇÃO EM 3 MINUTOS, MOSTRAR APENAS DADOS E BREVE EXPLICAÇÃO. 
+------------------
+PRIMEIRO 01) FILE *abrirArquivo(const char *nome, const char *modoAcesso)
+
+	FILE * - É um ponteiro para uma estrutura 'arquivo'
+
+	Fopen - Ela retorna um ponteiro para uma estrutura 'FILE' 
+
+	filename: é uma string contendo o nome do arquivo a ser aberto.
+
+	mode: é uma string que especifica o modo de abertura do arquivo. Pode ser "r" para leitura, "w" para escrita (criando um arquivo se não existir ou truncando o arquivo se já 	existir), "a" para anexar (criando o arquivo se não existir), etc.
+
+	Como aprendido na aula passada, 'consta char' indicando que são ponteiros para strings constantes. Isso significa que os dados apontados por esses ponteiros não podem ser modificados pela função fopen. Isso garante a segurança e a integridade dos dados. 
+
+------------------
+SEGUNDO 02) void escreverVetor(FILE *arquivo, int vetor[], int tamanho) 
+
+	
+	Esta função eu fiz para que eu possa escrever em um arquivo um vetor. Ou seja vou receber um vetor um arquivo e um tamanho.
+	
+	fprintf - É uma função de saida de dados em C que escreve dados formatados para um arquivo
+
+	FILE *arquivo - É um ponteiro para o arquivo onde os dados serão escritos. 
+	
+	format - É uma string de formato que especifica como os dados serão formatados antes de serem escritos no arquivo. 
+	
+	RESTANTE - Representa argumentos adicionais que correspondem aos formatos especificados na string de formato. 
+
+-----------------
+TERCEIRO 03) void gerarStatitica(int vetor[], int tamanho)
+
+	Função sem explicações muito complexas. Bem simples de explicar.
+-----------------
+QUARTO 04) void encontrarDist(int vetor[], int tamanho)
+	
+	Esta função nos ajuda a encontrar os numeros distindos.
+	
+	Bool iniciado como false.
+	
+	Nesse caso, o código executa a linha repetido = true;, definindo repetido como true. Em seguida, o loop interno é interrompido usando break, porque não há mais necessidade de continuar a verificar elementos anteriores se já foi encontrado um elemento repetido.
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------PROBLEMA COM A FUNÇÃO ENCONTRA DISTINTOS -----------------------------------------------------------------------------------------------------------------------------
+O problema ocorre porque a função encontrarDist não está considerando corretamente os elementos repetidos no vetor. Vamos analisar o loop onde ocorre a verificação de elementos distintos:
+
+c
+Copy code
+for (int i = 1; i < tamanho; i++)
+{
+    int j;
+    for (j = 0; j < i; j++)
+    {
+        if (vetor[i] == vetor[j])
+            break;
+    }
+    if (i == j)
+        fprintf(arquivo, " %d", vetor[i]);
+}
+Aqui, para cada elemento vetor[i], a função verifica se esse elemento é igual a algum elemento anterior vetor[j], onde j vai de 0 até i - 1. Se vetor[i] for igual a algum vetor[j], isso significa que o elemento não é distinto e o loop interno é interrompido prematuramente. No entanto, se i == j, significa que o loop interno percorreu todos os elementos anteriores sem encontrar uma correspondência, indicando que vetor[i] é distinto.
+
+O problema ocorre porque o loop interno apenas verifica se o elemento atual é igual a algum elemento anterior. Ele não detecta se o elemento atual já foi encontrado anteriormente. Portanto, ele não está considerando múltiplas ocorrências do mesmo elemento.
+
+Para corrigir isso, você precisa modificar a lógica para verificar se o elemento atual já foi encontrado em alguma posição anterior diferente de i. Aqui está uma correção sugerida:
+
+c
+Copy code
+for (int i = 0; i < tamanho; i++)
+{
+    int j;
+    for (j = 0; j < tamanho; j++)
+    {
+        if (i != j && vetor[i] == vetor[j])
+            break;
+    }
+    if (j == tamanho) // Nenhum outro elemento é igual a vetor[i]
+        fprintf(arquivo, " %d", vetor[i]);
+}
+Nesta correção, o loop interno agora verifica se o índice i é diferente de j para evitar a comparação do elemento consigo mesmo. Além disso, em vez de interromper o loop interno assim que um elemento igual for encontrado, ele continua até o final para garantir que nenhum outro elemento igual seja encontrado. Se nenhum outro elemento for encontrado igual a vetor[i], então vetor[i] é considerado distinto e é impresso no arquivo.
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
