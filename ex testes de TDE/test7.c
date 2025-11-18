@@ -1,0 +1,1 @@
+settings for clen ghosts files: disk cleanup 
